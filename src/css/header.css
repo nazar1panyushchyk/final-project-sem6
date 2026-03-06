@@ -1,0 +1,30 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #ffffff;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: 40px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.logo img {
+  position: absolute;
+  top: 13px;
+  left: 26px;
+}
+
+.logo p {
+  position: absolute;
+  top: 2px;
+  left: 47px;
+}
