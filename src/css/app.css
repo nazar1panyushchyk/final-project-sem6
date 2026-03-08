@@ -1,0 +1,15 @@
+.app {
+  font-family: Arial, sans-serif;
+}
+
+.app button {
+  cursor: pointer;
+}
+
+.app input {
+  outline: none;
+}
+
+.app a {
+  text-decoration: none;
+}

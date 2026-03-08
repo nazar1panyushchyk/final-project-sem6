@@ -1,0 +1,112 @@
+.transactions {
+  width: 1060px;
+  height: 579px;
+  background-color: #ffffff;
+  margin: 0 auto;
+}
+
+.transactions-form {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.delete-button {
+  background-color: #f5f6fb;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 30px;
+  border: none;
+}
+
+.definition-input,
+.categories,
+.sum-input {
+  border: 2px solid #f5f6fb;
+}
+
+.date-picker {
+  width: 115px;
+  height: 42px;
+  border: none;
+  background-color: #ffffff;
+}
+
+.definition-input {
+  width: 280px;
+  height: 44px;
+  border-radius: 16px 0 0 0;
+}
+
+.categories {
+  width: 188px;
+  height: 44px;
+  border-radius: 0;
+}
+
+.sum-input {
+  width: 124px;
+  height: 44px;
+  border-radius: 0 16px 16px 0;
+}
+
+.enter-button,
+.clear-button {
+  width: 125px;
+  height: 44px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.enter-button {
+  background-color: #ff751d;
+}
+
+.enter-button:hover {
+  background-color: #c55c1b !important;
+}
+
+.clear-button {
+  background-color: #ffffff;
+  border: 2px solid #f5f6fb;
+}
+
+.transaction-inputs {
+  display: flex;
+}
+
+.summary {
+  width: 230px;
+  height: 283px;
+  background-color: #f5f6fb;
+  border-radius: 30px 30px 30px 0;
+  overflow: hidden;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-top: 3px solid #ffffff;
+}
+
+.summary p {
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.transactions-content {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+}
+
+.transaction-table {
+  width: 760px;
+  height: 344px;
+}

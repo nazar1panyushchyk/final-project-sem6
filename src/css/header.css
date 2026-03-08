@@ -17,10 +17,12 @@ header {
   gap: 7px;
 }
 
+.logo {
+  position: relative;
+}
+
 .logo img {
-  position: absolute;
-  top: 13px;
-  left: 26px;
+  margin: 13px 0 0 26px;
 }
 
 .logo p {
