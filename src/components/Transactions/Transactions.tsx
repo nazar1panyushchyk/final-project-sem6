@@ -5,13 +5,22 @@ import "../../css/transactions.css";
 
 export default function Transactions() {
   return (
-    <section className="transactions">
-      <TransactionsForm />
+    <>
+      <div className="container">
+        <div className="main-page">
+          <button className="expenses">ВИТРАТИ</button>
+          <button className="income">ДОХІД</button>
+        </div>
 
-      <div className="transactions-content">
-        <TransactionsTable />
-        <TransactionsSummary />
+        <section className="transactions">
+          <TransactionsForm />
+
+          <div className="transactions-content">
+            <TransactionsTable />
+            <TransactionsSummary />
+          </div>
+        </section>
       </div>
-    </section>
+    </>
   );
 }

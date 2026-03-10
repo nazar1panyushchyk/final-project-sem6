@@ -21,7 +21,7 @@ export default function TransactionsForm() {
     <>
       <div className="transactions-form">
         <div className="date">
-          <DatePicker format="DD.MM.YYYY" className="date-picker" />
+          <DatePicker format="DD.MM.YYYY" className="date-picker" placeholder="Вибір дати"/>
         </div>
         <div className="transaction-inputs">
           <Input className="definition-input" placeholder="Опис товару" />
