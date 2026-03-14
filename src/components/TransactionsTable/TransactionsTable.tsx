@@ -11,40 +11,9 @@ interface Transaction {
   amount: number;
 }
 
-const columns: TableProps<Transaction>["columns"] = [
-  {
-    title: "ДАТА",
-    dataIndex: "date",
-    key: "date",
-  },
-  {
-    title: "ОПИС",
-    dataIndex: "description",
-    key: "description",
-  },
-  {
-    title: "КАТЕГОРІЯ",
-    dataIndex: "category",
-    key: "category",
-  },
-  {
-    title: "СУМА",
-    dataIndex: "amount",
-    key: "amount",
-    render: (amount) => (
-      <span style={{ color: "red" }}>- {amount}.00 грн.</span>
-    ),
-  },
-  {
-    title: "",
-    key: "delete",
-    render: () => (
-      <Button className="delete-button">
-        <IoTrashOutline style={{ width: "23px", height: "23px" }} />
-      </Button>
-    ),
-  },
-];
+type TransactionsTableProps = {
+  type: "expense" | "income";
+};
 
 const data: Transaction[] = [
   {
@@ -63,7 +32,43 @@ const data: Transaction[] = [
   },
 ];
 
-export default function Transactions() {
+export default function TransactionsTable({ type }: TransactionsTableProps) {
+  const columns: TableProps<Transaction>["columns"] = [
+    {
+      title: "ДАТА",
+      dataIndex: "date",
+      key: "date",
+    },
+    {
+      title: "ОПИС",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "КАТЕГОРІЯ",
+      dataIndex: "category",
+      key: "category",
+    },
+    {
+      title: "СУМА",
+      dataIndex: "amount",
+      key: "amount",
+      render: (amount) => (
+        <span style={{ color: type === "expense" ? "red" : "green" }}>
+          {type === "expense" ? "-" : "+"} {amount}.00 грн.
+        </span>
+      ),
+    },
+    {
+      title: "",
+      key: "delete",
+      render: () => (
+        <Button className="delete-button">
+          <IoTrashOutline style={{ width: "23px", height: "23px" }} />
+        </Button>
+      ),
+    },
+  ];
   return (
     <>
       <div className="transaction-table">

@@ -2,33 +2,36 @@ import { DatePicker, Input, Select, Button } from "antd";
 import { IoCalculatorOutline } from "react-icons/io5";
 import "../../css/transactions.css";
 
-export default function TransactionsForm() {
-  const categories = [
-    { value: "transport", label: "Транспорт" },
-    { value: "products", label: "Продукти" },
-    { value: "health", label: "Здоров'я" },
-    { value: "alcohol", label: "Алкоголь" },
-    { value: "entertainment", label: "Розваги" },
-    { value: "home", label: "Все для дому" },
-    { value: "technique", label: "Техніка" },
-    { value: "utilities-network", label: "Комуналка, зв'язок" },
-    { value: "sport-hobby", label: "Спорт, хобі" },
-    { value: "education", label: "Навчання" },
-    { value: "other", label: "Інше" },
-  ];
+type TransactionsFormProps = {
+  description: string;
+  category: string;
+  categories: {
+    value: string;
+    label: string;
+  }[];
+};
 
+export default function TransactionsForm({
+  description,
+  category,
+  categories,
+}: TransactionsFormProps) {
   return (
     <>
       <div className="transactions-form">
         <div className="date">
-          <DatePicker format="DD.MM.YYYY" className="date-picker" placeholder="Вибір дати"/>
+          <DatePicker
+            format="DD.MM.YYYY"
+            className="date-picker"
+            placeholder="Вибір дати"
+          />
         </div>
         <div className="transaction-inputs">
-          <Input className="definition-input" placeholder="Опис товару" />
+          <Input className="definition-input" placeholder={description} />
           <Select
             className="categories"
             options={categories}
-            placeholder="Категорія товару"
+            placeholder={category}
           />
           <Input
             className="sum-input"

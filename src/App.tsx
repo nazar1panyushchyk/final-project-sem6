@@ -1,17 +1,25 @@
 import Header from "./components/Header/Header";
 // import Auth from "./components/Auth/Auth";
-import Main from "./components/Main/Main";
-import Transactions from "./components/Transactions/Transactions";
+// import Transactions from "./components/Transactions/Transactions";
+import Calculations from "./components/Calculations/Calculations";
 // import "antd/dist/reset.css";
 import "./css/app.css";
+// import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
   return (
     <>
       <Header />
+      <Calculations />
       {/* <Auth /> */}
-      <Main />
-      <Transactions />
+      {/* <Transactions type="expense" /> */}
+      {/* <BrowserRouter>
+        <Routes>
+          <Route path="/expenses" element={<Transactions type="expense" />} />
+          <Route path="/income" element={<Transactions type="income" />} />
+          <Route path="*" element={<Navigate to="/expenses" />} />
+        </Routes>
+      </BrowserRouter> */}
     </>
   );
 }

@@ -1,6 +1,6 @@
-.top-main {
-  display: flex;
-  margin: 40px 50px 10px 0;
+a {
+    display: flex;
+    align-items: center;
 }
 
 .balance {
@@ -33,10 +33,4 @@
 .account {
   display: flex;
   gap: 15px;
-}
-
-.calculations {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }

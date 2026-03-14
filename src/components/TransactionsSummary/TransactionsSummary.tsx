@@ -1,14 +1,14 @@
 import "../../css/transactions.css";
 
-export default function TransactionsSummary() {
-  const summary = [
-    { id: 1, month: "ЛИСТОПАД", amount: "10 000.00" },
-    { id: 2, month: "ЖОВТЕНЬ", amount: "30 000.00" },
-    { id: 3, month: "ВЕРЕСЕНЬ", amount: "10 000.00" },
-    { id: 4, month: "СЕРПЕНЬ", amount: "10 000.00" },
-    { id: 5, month: "ЛИПЕНЬ", amount: "10 000.00" },
-    { id: 6, month: "ЧЕРВЕНЬ", amount: "10 000.00" },
-  ];
+type TransactionsSummaryProps = {
+  summary: {
+    id: number;
+    month: string;
+    amount: string;
+  }[];
+};
+
+export default function TransactionsSummary({ summary }: TransactionsSummaryProps) {
   return (
     <>
       <div className="summary">
