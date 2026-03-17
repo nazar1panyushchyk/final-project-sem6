@@ -8,21 +8,9 @@ import {
   MdOutlineKeyboardArrowRight,
 } from "react-icons/md";
 import line from "../../../public/img/line.png";
-import food from "../../../public/img/food.svg";
-import alcohol from "../../../public/img/alcohol.svg";
-import fun from "../../../public/img/fun.svg";
-import health from "../../../public/img/health.svg";
-import transport from "../../../public/img/transport.svg";
-import home from "../../../public/img/home.svg";
-import technique from "../../../public/img/technique.svg";
-import utility from "../../../public/img/utility.svg";
-import sport from "../../../public/img/sport.svg";
-import education from "../../../public/img/education.svg";
-import other from "../../../public/img/other.svg";
-import salary from "../../../public/img/salary.svg";
-import addsalary from "../../../public/img/addsalary.svg";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { expenseCategories, incomeCategories } from "../categoriesData/CategoriesData";
 
 const pages = ["expenses", "income"] as const;
 type Page = (typeof pages)[number];
@@ -180,15 +168,16 @@ export default function Calculations() {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  transition={{ duration: 0.25 }}
-                  className="calc-slider-card"
+                  transition={{ layout: { duration: 0.25 } }}
+                  className={`calc-slider-card ${
+                    page === "expenses" ? "expenses-card" : "income-card"
+                  }`}
                 >
                   <div
                     style={{
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      marginBottom: 20,
                       gap: "10px",
                     }}
                   >
@@ -231,24 +220,25 @@ export default function Calculations() {
                   {page === "expenses" ? (
                     <div className="expenses">
                       <div className="expenses-img">
-                        <img src={food} alt="food" />
-                        <img src={alcohol} alt="alcohol" />
-                        <img src={fun} alt="fun" />
-                        <img src={health} alt="health" />
-                        <img src={transport} alt="transport" />
-                        <img src={home} alt="home" />
-                        <img src={technique} alt="technique" />
-                        <img src={utility} alt="utility" />
-                        <img src={sport} alt="sport" />
-                        <img src={education} alt="education" />
-                        <img src={other} alt="other" />
+                        {expenseCategories.map((item) => (
+                          <div className="category-item" key={item.id}>
+                            <p style={{ color: "#52555F" }}>{item.amount}</p>
+                            <img src={item.image} alt={item.image} />
+                            <p style={{ color: "#52555F" }}>{item.label}</p>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   ) : (
                     <div className="income">
                       <div className="income-img">
-                        <img src={salary} alt="salary" />
-                        <img src={addsalary} alt="additional-income" />
+                        {incomeCategories.map((item) => (
+                          <div key={item.id}>
+                            <p>{item.amount}</p>
+                            <img src={item.image} alt={item.image} />
+                            <p>{item.label}</p>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   )}

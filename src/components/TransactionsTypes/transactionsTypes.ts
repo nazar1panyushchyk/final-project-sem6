@@ -4,6 +4,7 @@ export type TransactionsProps = {
   categories: {
     value: string;
     label: string;
+    amount: string;
   }[];
   summary: {
     id: number;
