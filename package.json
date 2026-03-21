@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.9",
+    "@mui/x-charts": "^8.27.5",
     "@reduxjs/toolkit": "^2.11.2",
     "antd": "^6.3.1",
     "chartjs-react": "^4.3.0",
@@ -24,6 +28,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.13.1",
     "react-slick": "^0.31.0",
+    "recharts": "^3.8.0",
     "swiper": "^9.4.1"
   },
   "devDependencies": {

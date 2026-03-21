@@ -10,7 +10,12 @@ import {
 import line from "../../../public/img/line.png";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { expenseCategories, incomeCategories } from "../categoriesData/CategoriesData";
+import {
+  expenseCategories,
+  incomeCategories,
+} from "../categoriesData/categoriesData";
+import ExpensesChart from "../ExpensesChart/ExpensesChart";
+import IncomeChart from "../IncomeChart/IncomeChart";
 
 const pages = ["expenses", "income"] as const;
 type Page = (typeof pages)[number];
@@ -52,6 +57,7 @@ export default function Calculations() {
 
   const scrollPrev = () => emblaApi?.scrollPrev();
   const scrollNext = () => emblaApi?.scrollNext();
+
   return (
     <>
       <div className="calc-container">
@@ -218,29 +224,42 @@ export default function Calculations() {
                     </button>
                   </div>
                   {page === "expenses" ? (
-                    <div className="expenses">
-                      <div className="expenses-img">
-                        {expenseCategories.map((item) => (
-                          <div className="category-item" key={item.id}>
-                            <p style={{ color: "#52555F" }}>{item.amount}</p>
-                            <img src={item.image} alt={item.image} />
-                            <p style={{ color: "#52555F" }}>{item.label}</p>
-                          </div>
-                        ))}
+                    <>
+                      <div className="expenses">
+                        <div className="expenses-img">
+                          {expenseCategories.map((item) => (
+                            <div
+                              className={`expense-item ${item.id === "utility" ? "two-lines" : ""}`}
+                              key={item.id}
+                            >
+                              <p style={{ color: "#52555F" }}>{item.amount}</p>
+                              <div className="img-container">
+                                <img src={item.image} alt={item.image} />
+                              </div>
+                              <p style={{ color: "#52555F" }}>{item.label}</p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                      <ExpensesChart />
+                    </>
                   ) : (
-                    <div className="income">
-                      <div className="income-img">
-                        {incomeCategories.map((item) => (
-                          <div key={item.id}>
-                            <p>{item.amount}</p>
-                            <img src={item.image} alt={item.image} />
-                            <p>{item.label}</p>
-                          </div>
-                        ))}
+                    <>
+                      <div className="income">
+                        <div className="income-img">
+                          {incomeCategories.map((item) => (
+                            <div className="income-item" key={item.id}>
+                              <p style={{ color: "#52555F" }}>{item.amount}</p>
+                              <div className="img-container">
+                                <img src={item.image} alt={item.image} />
+                              </div>
+                              <p style={{ color: "#52555F" }}>{item.label}</p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                      <IncomeChart />
+                    </>
                   )}
                 </motion.div>
               </AnimatePresence>

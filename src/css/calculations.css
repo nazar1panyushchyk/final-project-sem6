@@ -95,13 +95,13 @@ a {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
-  max-width: 520px;
+  gap: 22px;
+  max-width: 650px;
   margin: 0 auto;
 }
 
-.category-item {
-  width: 70px;
+.expense-item {
+  width: 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -127,7 +127,35 @@ a {
 
 .income-card {
   width: 1060px;
-  height: 196px;
+  min-height: 215px;
 }
 
+.expense-item p {
+  white-space: nowrap;
+  text-align: center;
+}
 
+.two-lines p {
+  white-space: normal;
+  line-height: 1.1;
+}
+
+.income-img {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin: 0 auto;
+}
+
+.income-item {
+  text-align: center;
+}
+
+.img-container {
+  background-color: #f5f6fb;
+  border-radius: 20px;
+  width: 70px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+}
