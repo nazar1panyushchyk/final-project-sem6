@@ -241,7 +241,6 @@ export default function Calculations() {
                           ))}
                         </div>
                       </div>
-                      <ExpensesChart />
                     </>
                   ) : (
                     <>
@@ -258,11 +257,13 @@ export default function Calculations() {
                           ))}
                         </div>
                       </div>
-                      <IncomeChart />
                     </>
                   )}
                 </motion.div>
               </AnimatePresence>
+            </div>
+            <div className="chart-container">
+              {page === "expenses" ? <ExpensesChart /> : <IncomeChart />}
             </div>
           </div>
         </div>

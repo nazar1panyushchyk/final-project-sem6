@@ -3,13 +3,12 @@ import { incomeChart } from "../ChartData/chartData";
 
 export default function IncomeChart() {
   return (
-    <div style={{ marginTop: 40, display: "flex", justifyContent: "center" }}>
+    <div style={{ display: "flex", justifyContent: "center" }}>
       <BarChart
         width={900}
         height={450}
         data={incomeChart}
         barCategoryGap="10%"
-        // Додаємо margin top, щоб звільнити місце для тексту "грн"
         margin={{ top: 30, right: 0, left: 0, bottom: 0 }}
       >
         <XAxis

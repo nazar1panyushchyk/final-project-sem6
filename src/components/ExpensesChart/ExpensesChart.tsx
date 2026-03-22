@@ -3,20 +3,19 @@ import { expensesChart } from "../ChartData/chartData";
 
 export default function ExpensesChart() {
   return (
-    <div style={{ marginTop: 40, display: "flex", justifyContent: "center" }}>
+    <div style={{ display: "flex", justifyContent: "center" }}>
       <BarChart
         width={900}
         height={450}
         data={expensesChart}
         barCategoryGap="10%"
       >
-        {/* axisLine={false} прибирає лінію, tickLine={false} прибирає засічки */}
         <XAxis
           dataKey="name"
           interval={0}
           axisLine={false}
           tickLine={false}
-          tick={{ fill: "#52555F", fontSize: 14 }} // Стилізація тексту категорій
+          tick={{ fill: "#52555F", fontSize: 14 }}
         />
 
         <Bar
