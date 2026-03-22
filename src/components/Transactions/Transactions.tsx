@@ -3,7 +3,6 @@ import TransactionsTable from "../TransactionsTable/TransactionsTable";
 import TransactionsSummary from "../TransactionsSummary/TransactionsSummary";
 import { expenseData, incomeData } from "../TransactionsData/transactionsData";
 import "../../css/transactions.css";
-// import calc from "../../../public/img/calc.png";
 import { NavLink } from "react-router-dom";
 import { MdBarChart } from "react-icons/md";
 
@@ -28,14 +27,24 @@ export default function Transactions({ type }: TransactionsProps) {
               </div>
             </div>
             <div className="calculations">
-              <a href="#" style={{ color: "#52555FB2" }}>
-                Перейти до розрахунків <MdBarChart style={{ color: "#52555F" }} />
+              <a
+                href="#"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  color: "#52555FB2",
+                }}
+              >
+                Перейти до розрахунків{" "}
+                <MdBarChart
+                  style={{
+                    color: "#52555F",
+                    width: "20px",
+                    height: "20px",
+                  }}
+                />
               </a>
-              {/* <img
-                src={calc}
-                alt="calculations"
-                style={{ width: "14px", height: "14px" }}
-              /> */}
             </div>
           </div>
         </div>
@@ -49,7 +58,6 @@ export default function Transactions({ type }: TransactionsProps) {
             }
           >
             ВИТРАТИ
-            {/* <button className="expenses">ВИТРАТИ</button> */}
           </NavLink>
           <NavLink
             to="/income"
@@ -58,7 +66,6 @@ export default function Transactions({ type }: TransactionsProps) {
             }
           >
             ДОХІД
-            {/* <button className="income">ДОХІД</button> */}
           </NavLink>
         </div>
 
