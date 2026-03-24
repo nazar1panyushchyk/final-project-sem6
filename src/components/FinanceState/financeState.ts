@@ -13,3 +13,11 @@ export type FinanceState = {
   balance: number;
   transactions: Transaction[];
 };
+
+export type NewTransaction = {
+  date: string;
+  description: string;
+  category: string;
+  amount: number;
+  type: TransactionType;
+}

@@ -5,6 +5,9 @@ import { expenseData, incomeData } from "../TransactionsData/transactionsData";
 import "../../css/transactions.css";
 import { NavLink } from "react-router-dom";
 import { MdBarChart } from "react-icons/md";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { useState } from "react";
+import { setBalance } from "../../redux/slice/financeSlice";
 
 type TransactionsProps = {
   type: "expense" | "income";
@@ -12,6 +15,13 @@ type TransactionsProps = {
 
 export default function Transactions({ type }: TransactionsProps) {
   const data = type === "income" ? incomeData : expenseData;
+  const [inputValue, setInputValue] = useState<string>("");
+  const dispatch = useAppDispatch();
+  const balance = useAppSelector((state) => state.finance.balance);
+  const handleSubmit = () => {
+    dispatch(setBalance(Number(inputValue)));
+    setInputValue("");
+  }
   return (
     <>
       <main>
@@ -22,8 +32,8 @@ export default function Transactions({ type }: TransactionsProps) {
                 <p style={{ color: "#52555FB2" }}>Баланс:</p>
               </div>
               <div className="account">
-                <input type="number" placeholder="00.00 UAH" />
-                <button type="submit">ПІДТВЕРДИТИ</button>
+                <input type="number" placeholder={balance} value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+                <button type="submit" onClick={handleSubmit}>ПІДТВЕРДИТИ</button>
               </div>
             </div>
             <div className="calculations">
