@@ -5,7 +5,7 @@ import type {
 } from "../../components/FinanceState/financeState";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-const initialState: FinanceState = { balance: 0, transactions: [] };
+const initialState: FinanceState = { balance: 0, transactions: []};
 
 const financeSlice = createSlice({
   name: "finance",

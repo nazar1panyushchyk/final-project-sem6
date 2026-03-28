@@ -8,6 +8,8 @@ import { MdBarChart } from "react-icons/md";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { useState } from "react";
 import { setBalance } from "../../redux/slice/financeSlice";
+import { selectSummaryByType } from "../../redux/selectors/selector";
+import { Link } from "react-router-dom";
 
 type TransactionsProps = {
   type: "expense" | "income";
@@ -18,10 +20,18 @@ export default function Transactions({ type }: TransactionsProps) {
   const [inputValue, setInputValue] = useState<string>("");
   const dispatch = useAppDispatch();
   const balance = useAppSelector((state) => state.finance.balance);
+  const summary = useAppSelector(selectSummaryByType(type));
   const handleSubmit = () => {
     dispatch(setBalance(Number(inputValue)));
     setInputValue("");
-  }
+  };
+  const formattedBalance =
+    balance
+      .toLocaleString("uk-UA", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+      .replace(",", ".") + " UAH";
   return (
     <>
       <main>
@@ -32,13 +42,20 @@ export default function Transactions({ type }: TransactionsProps) {
                 <p style={{ color: "#52555FB2" }}>Баланс:</p>
               </div>
               <div className="account">
-                <input type="number" placeholder={balance} value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-                <button type="submit" onClick={handleSubmit}>ПІДТВЕРДИТИ</button>
+                <input
+                  type="number"
+                  placeholder={formattedBalance}
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                />
+                <button type="submit" onClick={handleSubmit}>
+                  ПІДТВЕРДИТИ
+                </button>
               </div>
             </div>
             <div className="calculations">
-              <a
-                href="#"
+              <Link
+                to="/calc"
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -46,7 +63,7 @@ export default function Transactions({ type }: TransactionsProps) {
                   color: "#52555FB2",
                 }}
               >
-                Перейти до розрахунків{" "}
+                Перейти до розрахунків
                 <MdBarChart
                   style={{
                     color: "#52555F",
@@ -54,7 +71,7 @@ export default function Transactions({ type }: TransactionsProps) {
                     height: "20px",
                   }}
                 />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -81,6 +98,7 @@ export default function Transactions({ type }: TransactionsProps) {
 
         <section className="transactions">
           <TransactionsForm
+            type={type}
             key={type}
             description={data.description}
             category={data.category}
@@ -89,7 +107,7 @@ export default function Transactions({ type }: TransactionsProps) {
 
           <div className="transactions-content">
             <TransactionsTable type={type} />
-            <TransactionsSummary summary={data.summary} />
+            <TransactionsSummary summary={summary} />
           </div>
         </section>
       </div>

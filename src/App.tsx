@@ -1,3 +1,4 @@
+import Calculations from "./components/Calculations/Calculations";
 import Header from "./components/Header/Header";
 // import Auth from "./components/Auth/Auth";
 import Transactions from "./components/Transactions/Transactions";
@@ -17,6 +18,7 @@ function App() {
           <Route path="/expenses" element={<Transactions type="expense" />} />
           <Route path="/income" element={<Transactions type="income" />} />
           <Route path="*" element={<Navigate to="/expenses" />} />
+          <Route path="/calc" element={<Calculations />} />
         </Routes>
       </BrowserRouter>
     </>

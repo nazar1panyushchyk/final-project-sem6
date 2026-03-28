@@ -2,37 +2,19 @@ import { Table, Button } from "antd";
 import type { TableProps } from "antd";
 import "../../css/transactions.css";
 import { IoTrashOutline } from "react-icons/io5";
-
-interface Transaction {
-  key: string;
-  date: string;
-  description: string;
-  category: string;
-  amount: number;
-}
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import type { Transaction } from "../FinanceState/financeState";
+import { deleteTransaction } from "../../redux/slice/financeSlice";
 
 type TransactionsTableProps = {
   type: "expense" | "income";
 };
 
-const data: Transaction[] = [
-  {
-    key: "1",
-    date: "05.09.2019",
-    description: "Метро",
-    category: "Транспорт",
-    amount: 30,
-  },
-  {
-    key: "2",
-    date: "05.09.2019",
-    description: "Банани",
-    category: "Продукти",
-    amount: 50,
-  },
-];
-
 export default function TransactionsTable({ type }: TransactionsTableProps) {
+  const dispatch = useAppDispatch();
+  const data = useAppSelector((state) => state.finance.transactions);
+  const filteredData = data.filter((t) => t.type === type);
+  const shouldScroll = filteredData.length > 4;
   const columns: TableProps<Transaction>["columns"] = [
     {
       title: "ДАТА",
@@ -54,7 +36,7 @@ export default function TransactionsTable({ type }: TransactionsTableProps) {
       dataIndex: "amount",
       key: "amount",
       render: (amount) => (
-        <span style={{ color: type === "expense" ? "red" : "green" }}>
+        <span style={{ color: type === "expense" ? "red" : "green", fontWeight: "bold" }}>
           {type === "expense" ? "-" : "+"} {amount}.00 грн.
         </span>
       ),
@@ -62,8 +44,11 @@ export default function TransactionsTable({ type }: TransactionsTableProps) {
     {
       title: "",
       key: "delete",
-      render: () => (
-        <Button className="delete-button">
+      render: (_, record) => (
+        <Button
+          className="delete-button"
+          onClick={() => dispatch(deleteTransaction(record.id))}
+        >
           <IoTrashOutline style={{ width: "23px", height: "23px" }} />
         </Button>
       ),
@@ -72,7 +57,13 @@ export default function TransactionsTable({ type }: TransactionsTableProps) {
   return (
     <>
       <div className="transaction-table">
-        <Table columns={columns} dataSource={data} pagination={false} />
+        <Table
+          rowKey="id"
+          columns={columns}
+          dataSource={filteredData}
+          pagination={false}
+          scroll={shouldScroll ? { y: 300 } : undefined} 
+        />
       </div>
     </>
   );
