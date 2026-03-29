@@ -39,7 +39,7 @@ export default function Transactions({ type }: TransactionsProps) {
           <div className="top-main">
             <div className="balance">
               <div className="balance-text">
-                <p style={{ color: "#52555FB2" }}>Баланс:</p>
+                <p style={{ color: "#52555FB2", fontWeight: "500" }}>Баланс:</p>
               </div>
               <div className="account">
                 <input

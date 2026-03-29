@@ -8,7 +8,7 @@ import {
   MdOutlineKeyboardArrowRight,
 } from "react-icons/md";
 import line from "../../../public/img/line.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   expenseCategories,
@@ -16,17 +16,59 @@ import {
 } from "../categoriesData/categoriesData";
 import ExpensesChart from "../ExpensesChart/ExpensesChart";
 import IncomeChart from "../IncomeChart/IncomeChart";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../redux/hooks/hooks";
+import {
+  selectCategoryTotalsByPeriod,
+  selectTotalByTypeAndPeriod,
+} from "../../redux/selectors/selector";
 
 const pages = ["expenses", "income"] as const;
 type Page = (typeof pages)[number];
 
 dayjs.locale("uk");
 
-const months = Array.from({ length: 24 }, (_, i) =>
-  dayjs("2025-01-01").add(i, "month"),
+const months = Array.from({ length: 12 }, (_, i) =>
+  dayjs("2026-01-01").add(i, "month"),
 );
 
 export default function Calculations() {
+  const [selectedMonth, setSelectedMonth] = useState(dayjs().month() + 1);
+  const [selectedYear, setSelectedYear] = useState(dayjs().year());
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(dayjs().month());
+  const [selectedExpenseCategory, setSelectedExpenseCategory] = useState(
+    expenseCategories[0].value,
+  );
+  const [selectedIncomeCategory, setSelectedIncomeCategory] = useState(
+    incomeCategories[0].value,
+  );
+  useEffect(() => {
+    setSelectedMonth(currentMonthIndex + 1);
+    setSelectedYear(dayjs().year());
+  }, [currentMonthIndex]);
+  const expensesMonth = useAppSelector(
+    selectTotalByTypeAndPeriod("expense", selectedMonth, selectedYear),
+  );
+  const incomeMonth = useAppSelector(
+    selectTotalByTypeAndPeriod("income", selectedMonth, selectedYear),
+  );
+  const expenseCategoryTotals = useAppSelector(
+    selectCategoryTotalsByPeriod("expense", selectedMonth, selectedYear),
+  );
+  const incomeCategoryTotals = useAppSelector(
+    selectCategoryTotalsByPeriod("income", selectedMonth, selectedYear),
+  );
+  const balance = useAppSelector((state) => state.finance.balance);
+  const navigate = useNavigate();
+  const formatCurrency = (value: number) => {
+    return (
+      value.toLocaleString("uk-UA", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }) + " грн"
+    );
+  };
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
   });
@@ -55,32 +97,56 @@ export default function Calculations() {
     }),
   };
 
-  const scrollPrev = () => emblaApi?.scrollPrev();
-  const scrollNext = () => emblaApi?.scrollNext();
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const onSelect = () => {
+      const index = emblaApi.selectedScrollSnap();
+      setCurrentMonthIndex(index);
+    };
+
+    emblaApi.on("select", onSelect);
+
+    onSelect();
+
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi]);
+
+  const handlePrev = () => {
+    emblaApi?.scrollPrev();
+  };
+
+  const handleNext = () => {
+    setCurrentMonthIndex((prev) => (prev === 11 ? 0 : prev + 1));
+    emblaApi?.scrollNext();
+  };
 
   return (
     <>
       <div className="calc-container">
         <div className="calc-top">
-          <a href="#" style={{ color: "#52555FB2" }}>
-            <BsArrowLeft
-              style={{
-                color: "#FF751D",
-                width: "30px",
-                height: "25px",
-                marginTop: "1px",
-              }}
-            />
-            Повернутись на головну
-          </a>
+          <div className="go-back">
+            <button onClick={() => navigate("/expenses")}>
+              <BsArrowLeft
+                style={{
+                  color: "#FF751D",
+                  width: "30px",
+                  height: "25px",
+                  marginTop: "1px",
+                }}
+              />
+              Повернутись на головну
+            </button>
+          </div>
 
-          <div className="balance">
+          <div className="calc-balance">
             <div className="balance-text">
-              <p style={{ color: "#52555FB2" }}>Баланс:</p>
+              <p style={{ color: "#52555FB2", fontWeight: "500" }}>Баланс:</p>
             </div>
-            <div className="account">
-              <input type="number" placeholder="00.00 UAH" />
-              <button type="submit">ПІДТВЕРДИТИ</button>
+            <div className="balance-value">
+              <p className="current-balance">{formatCurrency(balance)}</p>
             </div>
           </div>
 
@@ -96,7 +162,7 @@ export default function Calculations() {
               style={{ display: "flex", alignItems: "center" }}
             >
               <button
-                onClick={scrollPrev}
+                onClick={handlePrev}
                 style={{ backgroundColor: "transparent" }}
               >
                 <MdOutlineKeyboardArrowLeft
@@ -144,7 +210,7 @@ export default function Calculations() {
               </div>
 
               <button
-                onClick={scrollNext}
+                onClick={handleNext}
                 style={{ backgroundColor: "transparent" }}
               >
                 <MdOutlineKeyboardArrowRight
@@ -156,11 +222,17 @@ export default function Calculations() {
         </div>
         <div className="calc-accounts">
           <p className="expenses-text">
-            Витрати: <span style={{ color: "#E53935" }}>-18 000.00 грн.</span>
+            Витрати:{" "}
+            <span style={{ color: "#E53935" }}>
+              - {formatCurrency(expensesMonth)}
+            </span>
           </p>
           <img src={line} alt="line" />
           <p className="income-text">
-            Доходи: <span style={{ color: "#407946" }}>+45 000.00 грн.</span>
+            Доходи:{" "}
+            <span style={{ color: "#407946" }}>
+              + {formatCurrency(incomeMonth)}
+            </span>
           </p>
         </div>
         <div>
@@ -225,36 +297,59 @@ export default function Calculations() {
                   </div>
                   {page === "expenses" ? (
                     <>
-                      <div className="expenses">
-                        <div className="expenses-img">
-                          {expenseCategories.map((item) => (
-                            <div
-                              className={`expense-item ${item.id === "utility" ? "two-lines" : ""}`}
-                              key={item.id}
-                            >
-                              <p style={{ color: "#52555F" }}>{item.amount}</p>
-                              <div className="img-container">
-                                <img src={item.image} alt={item.image} />
-                              </div>
-                              <p style={{ color: "#52555F" }}>{item.label}</p>
-                            </div>
-                          ))}
+                      <div className="calc-expenses">
+                        <div className="calc-expenses-img">
+                          {expenseCategories.map((item) => {
+                            const Icon = item.icon;
+                            return (
+                              <button
+                                className={`expense-item ${item.id === "utility" ? "two-lines" : ""}`}
+                                key={item.id}
+                                onClick={() =>
+                                  setSelectedExpenseCategory(item.value)
+                                }
+                              >
+                                <p style={{ color: "#52555F" }}>
+                                  {formatCurrency(
+                                    expenseCategoryTotals[item.value] ?? 0,
+                                  )}
+                                </p>
+                                <div className="img-container">
+                                  <Icon className={`category-icon ${item.value === selectedExpenseCategory ? "active-icon" : ""}`}/>
+                                </div>
+                                <p style={{ color: "#52555F" }}>{item.label}</p>
+                              </button>
+                            );
+                          })}
                         </div>
                       </div>
                     </>
                   ) : (
                     <>
-                      <div className="income">
-                        <div className="income-img">
-                          {incomeCategories.map((item) => (
-                            <div className="income-item" key={item.id}>
-                              <p style={{ color: "#52555F" }}>{item.amount}</p>
-                              <div className="img-container">
-                                <img src={item.image} alt={item.image} />
-                              </div>
-                              <p style={{ color: "#52555F" }}>{item.label}</p>
-                            </div>
-                          ))}
+                      <div className="calc-income">
+                        <div className="calc-income-img">
+                          {incomeCategories.map((item) => {
+                            const Icon = item.icon;
+                            return (
+                              <button
+                                className="income-item"
+                                key={item.id}
+                                onClick={() =>
+                                  setSelectedIncomeCategory(item.value)
+                                }
+                              >
+                                <p style={{ color: "#52555F" }}>
+                                  {formatCurrency(
+                                    incomeCategoryTotals[item.value] ?? 0,
+                                  )}
+                                </p>
+                                <div className="img-container">
+                                  <Icon className={`category-icon ${item.value === selectedIncomeCategory ? "active-icon" : ""}`}/>
+                                </div>
+                                <p style={{ color: "#52555F" }}>{item.label}</p>
+                              </button>
+                            );
+                          })}
                         </div>
                       </div>
                     </>

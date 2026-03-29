@@ -5,6 +5,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import type { Transaction } from "../FinanceState/financeState";
 import { deleteTransaction } from "../../redux/slice/financeSlice";
+import { allCategories } from "../categoriesData/categoriesData";
 
 type TransactionsTableProps = {
   type: "expense" | "income";
@@ -30,6 +31,10 @@ export default function TransactionsTable({ type }: TransactionsTableProps) {
       title: "КАТЕГОРІЯ",
       dataIndex: "category",
       key: "category",
+      render: (categoryValue) => {
+        const category = allCategories.find((item) => item.value === categoryValue);
+        return category ? category.label : categoryValue;
+      },
     },
     {
       title: "СУМА",

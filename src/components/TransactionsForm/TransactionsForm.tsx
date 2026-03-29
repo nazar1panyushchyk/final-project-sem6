@@ -14,7 +14,7 @@ type TransactionsFormProps = {
     value: string;
     label: string;
   }[];
-  type: TransactionType
+  type: TransactionType;
 };
 
 export default function TransactionsForm({
@@ -45,7 +45,15 @@ export default function TransactionsForm({
       message.error("Недостатньо коштів на балансі!");
       return;
     }
-    dispatch(addTransaction({ date: date.format("DD.MM.YYYY"), description: info, category: selectedCategory.label, amount: Number(amount), type }));
+    dispatch(
+      addTransaction({
+        date: date.format("DD.MM.YYYY"),
+        description: info,
+        category: group,
+        amount: Number(amount),
+        type,
+      }),
+    );
     setDate(null);
     setInfo("");
     setGroup("");
@@ -56,7 +64,7 @@ export default function TransactionsForm({
     setInfo("");
     setGroup("");
     setAmount("");
-  }
+  };
   return (
     <>
       <div className="transactions-form">
@@ -101,7 +109,9 @@ export default function TransactionsForm({
           >
             ВВЕСТИ
           </Button>
-          <Button className="clear-button" onClick={handleClear}>ОЧИСТИТИ</Button>
+          <Button className="clear-button" onClick={handleClear}>
+            ОЧИСТИТИ
+          </Button>
         </div>
       </div>
     </>
