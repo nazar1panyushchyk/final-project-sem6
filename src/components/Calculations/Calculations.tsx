@@ -1,36 +1,31 @@
 import { BsArrowLeft } from "react-icons/bs";
 import "../../css/calculations.css";
-import useEmblaCarousel from "embla-carousel-react";
 import dayjs from "dayjs";
 import "dayjs/locale/uk";
+import line from "../../../public/img/line.png";
 import {
   MdOutlineKeyboardArrowLeft,
   MdOutlineKeyboardArrowRight,
 } from "react-icons/md";
-import line from "../../../public/img/line.png";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   expenseCategories,
   incomeCategories,
 } from "../categoriesData/categoriesData";
-import ExpensesChart from "../ExpensesChart/ExpensesChart";
-import IncomeChart from "../IncomeChart/IncomeChart";
+import FinanceChart from "../FinanceChart/FinanceChart";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks/hooks";
 import {
   selectCategoryTotalsByPeriod,
+  selectChartDataByCategoryAndPeriod,
   selectTotalByTypeAndPeriod,
 } from "../../redux/selectors/selector";
+import CategoryList from "../CategoryList/CategoryList";
+import PeriodSelector from "../PeriodSelector/PeriodSelector";
 
 const pages = ["expenses", "income"] as const;
 type Page = (typeof pages)[number];
-
-dayjs.locale("uk");
-
-const months = Array.from({ length: 12 }, (_, i) =>
-  dayjs("2026-01-01").add(i, "month"),
-);
 
 export default function Calculations() {
   const [selectedMonth, setSelectedMonth] = useState(dayjs().month() + 1);
@@ -59,6 +54,22 @@ export default function Calculations() {
     selectCategoryTotalsByPeriod("income", selectedMonth, selectedYear),
   );
   const balance = useAppSelector((state) => state.finance.balance);
+  const expensesChartData = useAppSelector(
+    selectChartDataByCategoryAndPeriod(
+      "expense",
+      selectedExpenseCategory,
+      selectedMonth,
+      selectedYear,
+    ),
+  );
+  const incomeChartData = useAppSelector(
+    selectChartDataByCategoryAndPeriod(
+      "income",
+      selectedIncomeCategory,
+      selectedMonth,
+      selectedYear,
+    ),
+  );
   const navigate = useNavigate();
   const formatCurrency = (value: number) => {
     return (
@@ -68,10 +79,6 @@ export default function Calculations() {
       }) + " грн"
     );
   };
-
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "center",
-  });
 
   const [[index, direction], setPage] = useState([0, 0]);
 
@@ -95,32 +102,6 @@ export default function Calculations() {
       x: dir > 0 ? -150 : 150,
       opacity: 0,
     }),
-  };
-
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    const onSelect = () => {
-      const index = emblaApi.selectedScrollSnap();
-      setCurrentMonthIndex(index);
-    };
-
-    emblaApi.on("select", onSelect);
-
-    onSelect();
-
-    return () => {
-      emblaApi.off("select", onSelect);
-    };
-  }, [emblaApi]);
-
-  const handlePrev = () => {
-    emblaApi?.scrollPrev();
-  };
-
-  const handleNext = () => {
-    setCurrentMonthIndex((prev) => (prev === 11 ? 0 : prev + 1));
-    emblaApi?.scrollNext();
   };
 
   return (
@@ -150,75 +131,10 @@ export default function Calculations() {
             </div>
           </div>
 
-          <div className="periodSelector">
-            <div
-              className="periodLabel"
-              style={{ color: "#52555FB2", textAlign: "center" }}
-            >
-              Поточний період
-            </div>
-            <div
-              className="periodSwiper"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              <button
-                onClick={handlePrev}
-                style={{ backgroundColor: "transparent" }}
-              >
-                <MdOutlineKeyboardArrowLeft
-                  style={{ width: "30px", height: "30px", color: "#FF751D" }}
-                />
-              </button>
-
-              <div className="swiperCenter">
-                <div
-                  className="embla"
-                  style={{
-                    overflow: "hidden",
-                    width: "135px",
-                  }}
-                  ref={emblaRef}
-                >
-                  <div style={{ display: "flex" }} className="embla__container">
-                    {months.map((date) => (
-                      <div
-                        key={date.toString()}
-                        style={{
-                          flex: "0 0 100%",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          color: "black",
-                        }}
-                      >
-                        <span
-                          style={{
-                            textTransform: "uppercase",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {date.format("MMMM")}
-                        </span>
-
-                        <span style={{ fontWeight: 600 }}>
-                          {date.format("YYYY")}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={handleNext}
-                style={{ backgroundColor: "transparent" }}
-              >
-                <MdOutlineKeyboardArrowRight
-                  style={{ width: "30px", height: "30px", color: "#FF751D" }}
-                />
-              </button>
-            </div>
-          </div>
+          <PeriodSelector
+            currentMonthIndex={currentMonthIndex}
+            onChangeMonth={setCurrentMonthIndex}
+          />
         </div>
         <div className="calc-accounts">
           <p className="expenses-text">
@@ -296,69 +212,33 @@ export default function Calculations() {
                     </button>
                   </div>
                   {page === "expenses" ? (
-                    <>
-                      <div className="calc-expenses">
-                        <div className="calc-expenses-img">
-                          {expenseCategories.map((item) => {
-                            const Icon = item.icon;
-                            return (
-                              <button
-                                className={`expense-item ${item.id === "utility" ? "two-lines" : ""}`}
-                                key={item.id}
-                                onClick={() =>
-                                  setSelectedExpenseCategory(item.value)
-                                }
-                              >
-                                <p style={{ color: "#52555F" }}>
-                                  {formatCurrency(
-                                    expenseCategoryTotals[item.value] ?? 0,
-                                  )}
-                                </p>
-                                <div className="img-container">
-                                  <Icon className={`category-icon ${item.value === selectedExpenseCategory ? "active-icon" : ""}`}/>
-                                </div>
-                                <p style={{ color: "#52555F" }}>{item.label}</p>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </>
+                    <CategoryList
+                      categories={expenseCategories}
+                      totals={expenseCategoryTotals}
+                      selected={selectedExpenseCategory}
+                      onSelect={setSelectedExpenseCategory}
+                      formatCurrency={formatCurrency}
+                      variant={"expense"}
+                    />
                   ) : (
-                    <>
-                      <div className="calc-income">
-                        <div className="calc-income-img">
-                          {incomeCategories.map((item) => {
-                            const Icon = item.icon;
-                            return (
-                              <button
-                                className="income-item"
-                                key={item.id}
-                                onClick={() =>
-                                  setSelectedIncomeCategory(item.value)
-                                }
-                              >
-                                <p style={{ color: "#52555F" }}>
-                                  {formatCurrency(
-                                    incomeCategoryTotals[item.value] ?? 0,
-                                  )}
-                                </p>
-                                <div className="img-container">
-                                  <Icon className={`category-icon ${item.value === selectedIncomeCategory ? "active-icon" : ""}`}/>
-                                </div>
-                                <p style={{ color: "#52555F" }}>{item.label}</p>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </>
+                    <CategoryList
+                      categories={incomeCategories}
+                      totals={incomeCategoryTotals}
+                      selected={selectedIncomeCategory}
+                      onSelect={setSelectedIncomeCategory}
+                      formatCurrency={formatCurrency}
+                      variant={"income"}
+                    />
                   )}
                 </motion.div>
               </AnimatePresence>
             </div>
             <div className="chart-container">
-              {page === "expenses" ? <ExpensesChart /> : <IncomeChart />}
+              {page === "expenses" ? (
+                <FinanceChart data={expensesChartData} />
+              ) : (
+                <FinanceChart data={incomeChartData} />
+              )}
             </div>
           </div>
         </div>

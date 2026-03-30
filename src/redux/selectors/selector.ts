@@ -61,8 +61,6 @@ export const selectTotalByTypeAndPeriod =
     return total;
   };
 
-type CategoryTotals = Record<string, number>;
-
 export const selectCategoryTotalsByPeriod =
   (type: TransactionType, month: number, year: number) =>
   (state: RootState) => {
@@ -74,7 +72,36 @@ export const selectCategoryTotalsByPeriod =
     const total = filtered.reduce((acc, t) => {
       acc[t.category] = (acc[t.category] ?? 0) + t.amount;
       return acc;
-    }, {} as CategoryTotals);
+    }, {} as Record<string, number>);
 
     return total;
+  };
+
+export const selectChartDataByCategoryAndPeriod =
+  (type: TransactionType, category: string, month: number, year: number) =>
+  (state: RootState) => {
+    const data = state.finance.transactions;
+    const filtered = data.filter((t) => {
+      const { month: txMonth, year: txYear } = parseTransactionDate(
+        t.date,
+      );
+      return (
+        t.type === type &&
+        t.category === category &&
+        txMonth === month &&
+        txYear === year
+      );
+    });
+
+    const grouped = filtered.reduce((acc, t) => {
+      acc[t.description] = (acc[t.description] ?? 0) + t.amount;
+      return acc;
+    }, {} as Record<string, number>);
+
+    const chartData = Object.entries(grouped).map(([name, value]) => ({
+      name,
+      value
+    }));
+    chartData.sort((a, b) => b.value - a.value);
+    return chartData;
   };
