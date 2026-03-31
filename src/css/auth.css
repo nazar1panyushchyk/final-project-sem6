@@ -102,3 +102,7 @@ input::placeholder {
   color: #52555f;
   box-shadow: 1px 3px 5px 0px #52555f26;
 }
+
+.registration {
+  padding: 45px;
+}
