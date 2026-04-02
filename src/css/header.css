@@ -2,6 +2,7 @@ header {
   display: flex;
   justify-content: space-between;
   background-color: #ffffff;
+  min-height: 56px;
 }
 
 .profile {
@@ -29,4 +30,12 @@ header {
   position: absolute;
   top: 2px;
   left: 47px;
+}
+
+.exit-button {
+  text-decoration: underline;
+  border: none;
+  background: transparent;
+  color: #52555f;
+  font-weight: 400;
 }

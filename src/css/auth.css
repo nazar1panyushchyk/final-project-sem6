@@ -106,3 +106,8 @@ input::placeholder {
 .registration {
   padding: 45px;
 }
+
+.error-text {
+  color: #EB5757;
+  font-size: 12px;
+}

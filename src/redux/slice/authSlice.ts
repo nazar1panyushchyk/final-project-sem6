@@ -40,6 +40,10 @@ const authSlice = createSlice({
       state.status = "idle";
       localStorage.removeItem("currentUser");
     },
+    clearAuthState: (state) => {
+      state.error = null;
+      state.status = "idle";
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -79,5 +83,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logoutUser } = authSlice.actions;
+export const { logoutUser, clearAuthState } = authSlice.actions;
 export const authReducer = authSlice.reducer;

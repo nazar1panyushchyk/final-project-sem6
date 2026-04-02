@@ -85,7 +85,7 @@
 }
 
 .definition-input,
-.categories,
+/* .categories, */
 .sum-input {
   border: 2px solid #f5f6fb;
 }
@@ -103,11 +103,63 @@
   border-radius: 16px 0 0 0;
 }
 
-.categories {
-  width: 188px;
-  height: 44px;
-  border-radius: 0;
+/* .categories {
+  width: 200px;
+} */
+
+.categories.ant-select .ant-select-selector {
+  height: 44px !important; /* Встановіть висоту як у сусідніх інпутів */
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 11px !important;
+  border-radius: 16px 16px 16px 0 !important; /* Якщо у вас такий дизайн */
 }
+
+/* Вирівнюємо обраний текст та placeholder */
+.categories.ant-select .ant-select-selection-item,
+.categories.ant-select .ant-select-selection-placeholder {
+  line-height: 44px !important; /* Має дорівнювати висоті селектора */
+  display: flex !important;
+  align-items: center !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 11px !important;
+}
+
+/* Прибираємо можливі відступи, які заважають */
+.categories.ant-select .ant-select-selection-search {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* .categories {
+  width: 188px !important;
+  height: 44px !important;
+} */
+
+/* .categories .ant-select-selector {
+  height: 100% !important;
+  border: 2px solid #f5f6fb !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 11px !important;
+}
+
+.categories .ant-select-selection-item,
+.categories .ant-select-selection-placeholder {
+  display: flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: normal !important;
+}
+
+.categories .ant-select-selection-search {
+  display: flex !important;
+  align-items: center !important;
+} */
 
 .sum-input {
   width: 124px;

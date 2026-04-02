@@ -6,54 +6,60 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks/hooks";
 import { registerUserThunk } from "../../../redux/operations/authOperations";
+import { clearAuthState } from "../../../redux/slice/authSlice";
 
 export default function Registration() {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [errors, setErrors] = useState({ name: "", email: "", password: "" });
-    const authError = useAppSelector((state) => state.auth.error);
-    const authStatus = useAppSelector((state) => state.auth.status);
+  const [password, setPassword] = useState<string>("");
+  const [errors, setErrors] = useState({ name: "", email: "", password: "" });
+  const authError = useAppSelector((state) => state.auth.error);
+  const authStatus = useAppSelector((state) => state.auth.status);
   const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-    const validateForm = () => {
-        const newErrors = {
-            name: "",
-            email: "",
-            password: "",
-        };
+  const navigate = useNavigate();
+  const validateForm = () => {
+    const newErrors = {
+      name: "",
+      email: "",
+      password: "",
+    };
 
-        if (!name.trim()) {
-            newErrors.name = "це обов'язкове поле";
-        }
-
-        if (!email.trim()) {
-            newErrors.email = "це обов'язкове поле";
-        }
-
-        if (!password.trim()) {
-            newErrors.password = "це обов'язкове поле";
-        }
-
-        return newErrors;
-    }
-    const handleRegister = () => {
-        const newErrors = validateForm();
-        setErrors(newErrors);
-
-        const hasErrors = Object.values(newErrors).some((err) => err !== "");
-
-        if (hasErrors) return;
-
-        dispatch(registerUserThunk({ name, email, password }));
+    if (!name.trim()) {
+      newErrors.name = "це обов'язкове поле";
     }
 
-    useEffect(() => {
-        if (authStatus === "succeeded") {
-            navigate("/");
-        }
-    }, [authStatus, navigate]);
+    if (!email.trim()) {
+      newErrors.email = "це обов'язкове поле";
+    }
+
+    if (!password.trim()) {
+      newErrors.password = "це обов'язкове поле";
+    }
+
+    return newErrors;
+  };
+  const handleRegister = () => {
+    const newErrors = validateForm();
+    setErrors(newErrors);
+
+    const hasErrors = Object.values(newErrors).some((err) => err !== "");
+
+    if (hasErrors) return;
+
+    dispatch(registerUserThunk({ name, email, password }));
+  };
+
+  useEffect(() => {
+    if (authStatus === "succeeded") {
+      navigate("/");
+      dispatch(clearAuthState());
+    }
+  }, [authStatus, navigate, dispatch]);
+
+  useEffect(() => {
+      dispatch(clearAuthState());
+    }, [dispatch])
   return (
     <>
       <div className="auth-container">
@@ -161,11 +167,18 @@ export default function Registration() {
               />
               {errors.password && <p>{errors.password}</p>}
             </form>
+            {authError && <p>{authError}</p>}
             <div className="auth-buttons">
-              <button className="register-button" onClick={handleRegister}>
+              <button
+                className="register-button"
+                onClick={handleRegister}
+                type="button"
+              >
                 РЕЄСТРАЦІЯ
               </button>
-              <button onClick={() => navigate("/")}>УВІЙТИ</button>
+              <button onClick={() => navigate("/")} type="button">
+                УВІЙТИ
+              </button>
             </div>
           </div>
         </div>

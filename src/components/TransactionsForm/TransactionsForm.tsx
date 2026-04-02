@@ -25,7 +25,7 @@ export default function TransactionsForm({
 }: TransactionsFormProps) {
   const [date, setDate] = useState<Dayjs | null>(null);
   const [info, setInfo] = useState<string>("");
-  const [group, setGroup] = useState<string>("");
+  const [group, setGroup] = useState<string | undefined>(undefined);
   const [amount, setAmount] = useState<string>("");
   const dispatch = useAppDispatch();
   const balance = useAppSelector((state) => state.finance.balance);
@@ -56,7 +56,7 @@ export default function TransactionsForm({
     );
     setDate(null);
     setInfo("");
-    setGroup("");
+    setGroup(undefined);
     setAmount("");
   };
   const handleClear = () => {
@@ -84,15 +84,27 @@ export default function TransactionsForm({
             value={info}
             onChange={(e) => setInfo(e.target.value)}
           />
-          <Select
+          {/* <Select
             className="categories"
             options={categories}
             placeholder={category}
-            value={group}
+            value={group || undefined}
             onChange={(value) => setGroup(value)}
+            allowClear
+          /> */}
+          <Select
+            className="categories"
+            options={categories}
+            placeholder={category} // Переконайтеся, що props 'category' не порожній
+            /* ВАЖЛИВО: Перевіряємо, щоб value ніколи не було "" */
+            value={group && group !== "" ? group : undefined}
+            onChange={(value) => setGroup(value)}
+            /* Додаємо фіксовану висоту в style, щоб перевірити чи допоможе */
+            style={{ height: "44px", width: "100%" }}
           />
           <Input
             className="sum-input"
+            style={{ display: "flex", alignItems: "center" }}
             placeholder="0.00"
             suffix={
               <IoCalculatorOutline style={{ width: "23px", height: "23px" }} />
