@@ -53,7 +53,7 @@ export default function Login() {
 
   useEffect(() => {
     dispatch(clearAuthState());
-  }, [dispatch])
+  }, [dispatch]);
   return (
     <>
       <div className="auth-container">
@@ -83,13 +83,15 @@ export default function Login() {
               <br />
               паролю після реєстрації
             </p>
-            <form>
+            <form className="login-form">
               <label>Електронна пошта:</label>
               <TextField
                 id="outlined-basic"
                 label="your@email.com"
                 variant="outlined"
                 value={email}
+                error={!!errors.email}
+                helperText={errors.email}
                 onChange={(e) => setEmail(e.target.value)}
                 sx={{
                   width: 269,
@@ -107,52 +109,62 @@ export default function Login() {
                       borderColor: "blue",
                     },
                   },
-                }}
-              />
-              {errors.email && <p className="error-text">{errors.email}</p>}
-              <label>Пароль</label>
-              <TextField
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                sx={{
-                  width: 269,
-                  height: 54,
-
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "30px",
-
-                    "& fieldset": {
-                      border: "none",
-                    },
-
-                    "&:hover fieldset": {
-                      borderColor: "blue",
-                    },
-                  },
-                }}
-                slotProps={{
-                  input: {
-                    sx: {
-                      backgroundColor: "#f6f7fb",
-                    },
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => setShowPassword((prev) => !prev)}
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
+                  "& .MuiFormHelperText-root": {
+                    minHeight: "20px",
+                    marginLeft: "14px",
                   },
                 }}
               />
-              {errors.password && (
-                <p className="error-text">{errors.password}</p>
-              )}
+              <div className="form-password">
+                <label>Пароль:</label>
+                <TextField
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  error={!!errors.password}
+                  helperText={errors.password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  sx={{
+                    width: 269,
+                    height: 54,
+
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "30px",
+
+                      "& fieldset": {
+                        border: "none",
+                      },
+
+                      "&:hover fieldset": {
+                        borderColor: "blue",
+                      },
+                    },
+                    "& .MuiFormHelperText-root": {
+                      minHeight: "20px",
+                      marginLeft: "14px",
+                    },
+                  }}
+                  slotProps={{
+                    input: {
+                      sx: {
+                        backgroundColor: "#f6f7fb",
+                      },
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowPassword((prev) => !prev)}
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+              </div>
             </form>
-            {authError && <p>{authError}</p>}
+            <div className="auth-error-wrapper">
+              {authError && <p className="auth-error">{authError}</p>}
+            </div>
             <div className="auth-buttons">
               <button onClick={handleLogin} type="button">
                 УВІЙТИ

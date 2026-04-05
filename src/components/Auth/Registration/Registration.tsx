@@ -27,14 +27,20 @@ export default function Registration() {
 
     if (!name.trim()) {
       newErrors.name = "це обов'язкове поле";
+    } else if (name.trim().length < 2) {
+      newErrors.name = "мінімум 2 символи";
     }
 
     if (!email.trim()) {
       newErrors.email = "це обов'язкове поле";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+       newErrors.email = "некоректна пошта";
     }
 
     if (!password.trim()) {
       newErrors.password = "це обов'язкове поле";
+    } else if (password.length < 6) {
+      newErrors.password = "мінімум 6 символів";
     }
 
     return newErrors;
@@ -58,8 +64,8 @@ export default function Registration() {
   }, [authStatus, navigate, dispatch]);
 
   useEffect(() => {
-      dispatch(clearAuthState());
-    }, [dispatch])
+    dispatch(clearAuthState());
+  }, [dispatch]);
   return (
     <>
       <div className="auth-container">
@@ -67,85 +73,87 @@ export default function Registration() {
           <h1 style={{ color: "#000000", fontSize: "102px" }}>InvestIQ</h1>
           <p style={{ color: "#52555F" }}>SMART FINANCE</p>
         </div>
-        <div className="auth-form">
+        <div className="auth-form form-registration-container">
           <div className="auth registration">
             <p>
               Зареєструйтесь, ввівши своє ім'я, електронну
               <br />
               пошту та пароль
             </p>
-            <form>
+            <form className="register-form">
               <label>Ім'я:</label>
               <TextField
                 id="outlined-basic"
                 label="Name"
                 variant="outlined"
                 value={name}
+                error={!!errors.name}
+                helperText={errors.name}
                 onChange={(e) => setName(e.target.value)}
                 sx={{
                   width: 269,
-                  height: 54,
-
                   "& .MuiOutlinedInput-root": {
+                    height: 54,
                     borderRadius: "30px",
                     backgroundColor: "#f6f7fb",
-
                     "& fieldset": {
                       border: "none",
                     },
-
-                    "&:hover fieldset": {
-                      borderColor: "blue",
-                    },
+                  },
+                  "& .MuiFormHelperText-root": {
+                    fontSize: "11px",
+                    lineHeight: "12px",
+                    marginTop: "4px",
                   },
                 }}
               />
-              {errors.name && <p>{errors.name}</p>}
               <label>Електронна пошта:</label>
               <TextField
                 id="outlined-basic"
                 label="your@email.com"
                 variant="outlined"
                 value={email}
+                error={!!errors.email}
+                helperText={errors.email}
                 onChange={(e) => setEmail(e.target.value)}
                 sx={{
                   width: 269,
-                  height: 54,
-
                   "& .MuiOutlinedInput-root": {
+                    height: 54,
                     borderRadius: "30px",
                     backgroundColor: "#f6f7fb",
-
                     "& fieldset": {
                       border: "none",
                     },
-
-                    "&:hover fieldset": {
-                      borderColor: "blue",
-                    },
+                  },
+                  "& .MuiFormHelperText-root": {
+                    fontSize: "11px",
+                    lineHeight: "12px",
+                    marginTop: "4px",
                   },
                 }}
               />
-              {errors.email && <p>{errors.email}</p>}
               <label>Пароль</label>
               <TextField
                 type={showPassword ? "text" : "password"}
                 value={password}
+                error={!!errors.password}
+                helperText={errors.password}
                 onChange={(e) => setPassword(e.target.value)}
                 sx={{
                   width: 269,
-                  height: 54,
-
                   "& .MuiOutlinedInput-root": {
+                    height: 54,
                     borderRadius: "30px",
-
+                    backgroundColor: "#f6f7fb",
                     "& fieldset": {
                       border: "none",
                     },
-
-                    "&:hover fieldset": {
-                      borderColor: "blue",
-                    },
+                  },
+                  "& .MuiFormHelperText-root": {
+                    fontSize: "11px",
+                    lineHeight: "12px",
+                    marginTop: "4px",
                   },
                 }}
                 slotProps={{
@@ -165,10 +173,13 @@ export default function Registration() {
                   },
                 }}
               />
-              {errors.password && <p>{errors.password}</p>}
             </form>
-            {authError && <p>{authError}</p>}
-            <div className="auth-buttons">
+            <div className="auth-error-wrapper">
+              {authError && (
+                <p className="auth-error register-error">{authError}</p>
+              )}
+            </div>
+            <div className="auth-buttons register-buttons">
               <button
                 className="register-button"
                 onClick={handleRegister}

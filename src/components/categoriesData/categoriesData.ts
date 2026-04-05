@@ -13,11 +13,11 @@ import salary from "../../../public/img/salary.svg";
 import addsalary from "../../../public/img/addsalary.svg";
 
 export const expenseCategories = [
+  { id: "transport", value: "transport", image: transport, label: "ТРАНСПОРТ" },
   { id: "products", value: "products", image: food, label: "ПРОДУКТИ" },
   { id: "alcohol", value: "alcohol", image: alcohol, label: "АЛКОГОЛЬ" },
   { id: "fun", value: "fun", image: fun, label: "РОЗВАГИ" },
   { id: "health", value: "health", image: health, label: "ЗДОРОВ'Я" },
-  { id: "transport", value: "transport", image: transport, label: "ТРАНСПОРТ" },
   { id: "home", value: "home", image: home, label: "ВСЕ ДЛЯ ДОМУ" },
   { id: "technique", value: "technique", image: technique, label: "ТЕХНІКА" },
   {

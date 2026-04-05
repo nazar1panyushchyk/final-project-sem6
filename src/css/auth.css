@@ -1,5 +1,6 @@
 body {
   background-image: url("../../public/img/bg.png");
+  border-radius: 0 0 0 100px;
 }
 
 p {
@@ -33,6 +34,15 @@ h1 {
   top: 70px;
   background-color: #ffffff;
   width: 436px;
+  min-height: 535px;
+  border-radius: 30px;
+}
+
+.form-registration-container {
+  position: relative;
+  top: 70px;
+  background-color: #ffffff;
+  width: 436px;
   height: 535px;
   border-radius: 30px;
 }
@@ -43,6 +53,14 @@ h1 {
   justify-content: center;
   flex-direction: column;
   padding: 30px;
+}
+
+.auth.registration {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 30px;
+  box-sizing: border-box;
 }
 
 .google {
@@ -58,10 +76,23 @@ h1 {
   box-shadow: 1px 2px 3px 0px #aab2c533;
 }
 
-form {
+.login-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 269px;
+}
+
+.form-password {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
 }
 
 input {
@@ -81,7 +112,7 @@ input::placeholder {
 .auth-buttons {
   display: flex;
   gap: 13px;
-  padding-top: 30px;
+  padding-top: 50px;
 }
 
 .auth-buttons button {
@@ -103,11 +134,38 @@ input::placeholder {
   box-shadow: 1px 3px 5px 0px #52555f26;
 }
 
+.register-buttons {
+  display: flex;
+  gap: 13px;
+  margin-top: auto;
+}
+
 .registration {
   padding: 45px;
 }
 
 .error-text {
-  color: #EB5757;
+  color: #eb5757;
   font-size: 12px;
+}
+
+.auth-error-wrapper {
+  position: relative;
+  height: 0;
+}
+
+.auth-error {
+  width: 100%;
+  font-size: 14px;
+  color: #eb5757;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.register-error {
+  width: 100%;
+  font-size: 14px;
+  color: #eb5757;
+  text-align: center;
+  padding-top: 1px;
 }

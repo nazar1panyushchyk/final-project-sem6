@@ -1,7 +1,8 @@
 import logo from "../../../public/img/logo.png";
 import line from "../../../public/img/line.png";
 import "../../css/header.css";
-import { useState } from "react";
+import "../../css/modal.css";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { logoutUser } from "../../redux/slice/authSlice";
@@ -20,46 +21,54 @@ export default function Header() {
     setModalOpen(false);
     navigate("/");
   };
+  useEffect(() => {
+    if (modalOpen === true) {
+        document.body.style.overflow = "hidden";
+    } else {
+       document.body.style.overflow = "auto";
+    }
+  }, [modalOpen])
   return (
     <>
       <header>
-          <div className="logo">
-            <img
-              src={logo}
-              alt="logo"
-              style={{ width: "39px", height: "31px" }}
-            />
-            <p style={{ fontWeight: "800", fontSize: "16px", color: "black" }}>
-              INVESTIQ
-            </p>
-          </div>
-          {!isAuthPage && currentUser && (
-            <div className="profile">
-              <div className="user">
-                <div className="avatar">U</div>
-                <p style={{ color: " #52555F" }}>User Name</p>
+        <div className="logo">
+          <img
+            src={logo}
+            alt="logo"
+            style={{ width: "39px", height: "31px" }}
+          />
+          <p style={{ fontWeight: "800", fontSize: "16px", color: "black" }}>
+            INVESTIQ
+          </p>
+        </div>
+        {!isAuthPage && currentUser && (
+          <div className="profile">
+            <div className="user">
+              <div className="avatar">
+                {currentUser.name[0].toUpperCase()}
               </div>
-              <img src={line} alt="line" />
-              <button
-                className="exit-button"
-                onClick={() => setModalOpen(true)}
-              >
-                Вийти
-              </button>
+              <p style={{ color: " #52555F" }}>{currentUser.name}</p>
             </div>
-          )}
+            <img src={line} alt="line" />
+            <button className="exit-button" onClick={() => setModalOpen(true)}>
+              Вийти
+            </button>
+          </div>
+        )}
       </header>
 
       {modalOpen && (
-        <div className="overlay">
-          <div className="modal-container">
-            <button className="cross" onClick={() => setModalOpen(false)}>
-              <RxCross2 />
-            </button>
-            <p>Ви дійсно хочете вийти?</p>
+        <div className="overlay" onClick={() => setModalOpen(false)}>
+          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+            <div className="cross-container">
+              <button className="cross" onClick={() => setModalOpen(false)}>
+                <RxCross2 style={{ width: "22px", height: "22px" }} />
+              </button>
+            </div>
+            <p style={{ textAlign: "center", fontSize: "16px", fontWeight: 500 }}>Ви дійсно хочете вийти?</p>
             <div className="modal-buttons">
-              <button onClick={handleLogout}>Так</button>
-              <button onClick={() => setModalOpen(false)}>Ні</button>
+              <button onClick={handleLogout}>ТАК</button>
+              <button onClick={() => setModalOpen(false)}>НІ</button>
             </div>
           </div>
         </div>

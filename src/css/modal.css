@@ -1,0 +1,53 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+}
+
+.modal-container {
+  width: 380px;
+  height: 194px;
+  background-color: #ffffff;
+  border-radius: 30px;
+}
+
+.cross-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cross {
+  position: relative;
+  top: 5px;
+  background: transparent;
+  border: none;
+  color: #52555f;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  width: 125px;
+  height: 44px;
+  border-radius: 16px;
+  font-size: 14px;
+}
+
+.modal-buttons button:nth-child(1) {
+  background-color: #ff751d;
+}
+
+.modal-buttons button:nth-child(2) {
+  background-color: #ffffff;
+  color: #52555f;
+  border: 2px solid #f5f6fb;
+}

@@ -42,7 +42,7 @@ export default function TransactionsTable({ type }: TransactionsTableProps) {
       key: "amount",
       render: (amount) => (
         <span style={{ color: type === "expense" ? "red" : "green", fontWeight: "bold" }}>
-          {type === "expense" ? "-" : "+"} {amount}.00 грн.
+          {type === "expense" ? "-" : "+"} {Number(amount).toFixed(2)} грн.
         </span>
       ),
     },

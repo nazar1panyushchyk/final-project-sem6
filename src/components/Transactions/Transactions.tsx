@@ -2,6 +2,7 @@ import TransactionsForm from "../TransactionsForm/TransactionsForm";
 import TransactionsTable from "../TransactionsTable/TransactionsTable";
 import TransactionsSummary from "../TransactionsSummary/TransactionsSummary";
 import { expenseData, incomeData } from "../TransactionsData/transactionsData";
+import { expenseCategories, incomeCategories } from "../categoriesData/categoriesData";
 import "../../css/transactions.css";
 import { NavLink } from "react-router-dom";
 import { MdBarChart } from "react-icons/md";
@@ -10,6 +11,7 @@ import { useState } from "react";
 import { setBalance } from "../../redux/slice/financeSlice";
 import { selectSummaryByType } from "../../redux/selectors/selector";
 import { Link } from "react-router-dom";
+import InitialModal from "../InitialModal/InitialModal";
 
 type TransactionsProps = {
   type: "expense" | "income";
@@ -17,6 +19,7 @@ type TransactionsProps = {
 
 export default function Transactions({ type }: TransactionsProps) {
   const data = type === "income" ? incomeData : expenseData;
+  const formCategories = type === "income" ? incomeCategories : expenseCategories;
   const [inputValue, setInputValue] = useState<string>("");
   const dispatch = useAppDispatch();
   const balance = useAppSelector((state) => state.finance.balance);
@@ -48,6 +51,7 @@ export default function Transactions({ type }: TransactionsProps) {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                 />
+                <InitialModal />
                 <button type="submit" onClick={handleSubmit}>
                   ПІДТВЕРДИТИ
                 </button>
@@ -102,7 +106,7 @@ export default function Transactions({ type }: TransactionsProps) {
             key={type}
             description={data.description}
             category={data.category}
-            categories={data.categories}
+            categories={formCategories}
           />
 
           <div className="transactions-content">

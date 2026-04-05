@@ -15,7 +15,20 @@ header {
 .user {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 10px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  color: #52555f;
+  background-color: #f5f6fa;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 14px;
 }
 
 .logo {
