@@ -61,7 +61,7 @@ export default function PeriodSelector({
       <div className="periodSelector">
         <div
           className="periodLabel"
-          style={{ color: "#52555FB2", textAlign: "center" }}
+          style={{ color: "#52555FB2", textAlign: "center", fontWeight: "500" }}
         >
           Поточний період
         </div>

@@ -12,6 +12,7 @@ export type Transaction = {
 export type FinanceState = {
   balance: number;
   transactions: Transaction[];
+  isInitialModalClosed: boolean;
 };
 
 export type NewTransaction = {

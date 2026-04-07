@@ -30,6 +30,7 @@
     "react-router-dom": "^7.13.1",
     "react-slick": "^0.31.0",
     "recharts": "^3.8.0",
+    "redux-persist": "^6.0.0",
     "swiper": "^9.4.1",
     "vite-plugin-svgr": "^5.0.0"
   },
@@ -39,6 +40,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/react-slick": "^0.23.13",
+    "@types/redux-persist": "^4.0.0",
     "@vitejs/plugin-react": "^5.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^9.39.1",

@@ -5,7 +5,11 @@ import type {
 } from "../../components/FinanceState/financeState";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-const initialState: FinanceState = { balance: 0, transactions: []};
+const initialState: FinanceState = {
+  balance: 0,
+  transactions: [],
+  isInitialModalClosed: false,
+};
 
 const financeSlice = createSlice({
   name: "finance",
@@ -38,8 +42,25 @@ const financeSlice = createSlice({
       }
       state.transactions = state.transactions.filter((t) => t.id !== id);
     },
+    clearFinanceData(state) {
+      state.balance = 0;
+      state.transactions = [];
+    },
+    closeInitialModal(state) {
+      state.isInitialModalClosed = true;
+    },
+    resetInitialModal(state) {
+      state.isInitialModalClosed = false;
+    },
   },
 });
 
-export const { setBalance, addTransaction, deleteTransaction } = financeSlice.actions;
+export const {
+  setBalance,
+  addTransaction,
+  deleteTransaction,
+  clearFinanceData,
+  closeInitialModal,
+  resetInitialModal,
+} = financeSlice.actions;
 export const financeReducer = financeSlice.reducer;

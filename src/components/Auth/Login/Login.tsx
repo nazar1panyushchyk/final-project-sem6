@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks/hooks";
 import { loginUserThunk } from "../../../redux/operations/authOperations";
 import { clearAuthState } from "../../../redux/slice/authSlice";
+import { clearFinanceData } from "../../../redux/slice/financeSlice";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,6 +44,9 @@ export default function Login() {
     if (hasErrors) return;
 
     dispatch(loginUserThunk({ email, password }));
+
+    dispatch(clearFinanceData());
+    localStorage.removeItem("persist:finance");
   };
 
   useEffect(() => {

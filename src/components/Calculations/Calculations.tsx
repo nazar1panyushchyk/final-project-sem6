@@ -76,7 +76,7 @@ export default function Calculations() {
       value.toLocaleString("uk-UA", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
-      }) + " грн"
+      }) + " UAH"
     );
   };
 

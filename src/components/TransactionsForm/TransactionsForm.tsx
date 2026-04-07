@@ -84,23 +84,13 @@ export default function TransactionsForm({
             value={info}
             onChange={(e) => setInfo(e.target.value)}
           />
-          {/* <Select
+          <Select
             className="categories"
             options={categories}
             placeholder={category}
             value={group || undefined}
             onChange={(value) => setGroup(value)}
             allowClear
-          /> */}
-          <Select
-            className="categories"
-            options={categories}
-            placeholder={category} // Переконайтеся, що props 'category' не порожній
-            /* ВАЖЛИВО: Перевіряємо, щоб value ніколи не було "" */
-            value={group && group !== "" ? group : undefined}
-            onChange={(value) => setGroup(value)}
-            /* Додаємо фіксовану висоту в style, щоб перевірити чи допоможе */
-            style={{ height: "44px", width: "100%" }}
           />
           <Input
             className="sum-input"

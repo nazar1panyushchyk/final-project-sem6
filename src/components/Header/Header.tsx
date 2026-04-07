@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { logoutUser } from "../../redux/slice/authSlice";
 import { RxCross2 } from "react-icons/rx";
+import { clearFinanceData, resetInitialModal } from "../../redux/slice/financeSlice";
 
 export default function Header() {
   const location = useLocation();
@@ -17,9 +18,13 @@ export default function Header() {
   const isAuthPage =
     location.pathname === "/" || location.pathname === "/register";
   const handleLogout = () => {
+    dispatch(clearFinanceData());
     dispatch(logoutUser());
+    dispatch(resetInitialModal());
     setModalOpen(false);
     navigate("/");
+
+    localStorage.removeItem("persist:finance");
   };
   useEffect(() => {
     if (modalOpen === true) {
